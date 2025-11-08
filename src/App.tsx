@@ -5,13 +5,21 @@ import Levels from './components/Levels';
 import LevelDetail from './components/LevelDetail';
 import ClassDetail from './components/ClassDetail';
 import GameLauncher from './components/GameLauncher';
+import GamesHub from './components/GamesHub';
+import WritingPractice from './components/WritingPractice';
+import Progress from './components/Progress';
+import About from './components/About';
 import { levels, classes } from './data/courseData';
 
 type View =
   | { type: 'home' }
   | { type: 'level'; levelId: string }
   | { type: 'class'; classId: string }
-  | { type: 'game'; gameId: string; levelColor: string };
+  | { type: 'game'; gameId: string; levelColor: string }
+  | { type: 'games-hub' }
+  | { type: 'writing' }
+  | { type: 'progress' }
+  | { type: 'about' };
 
 function App() {
   const [view, setView] = useState<View>({ type: 'home' });
@@ -57,7 +65,29 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
+      <Header
+        onNavigation={(section) => {
+          switch (section) {
+            case 'lessons':
+              setView({ type: 'home' });
+              break;
+            case 'games':
+              setView({ type: 'games-hub' });
+              break;
+            case 'writing':
+              setView({ type: 'writing' });
+              break;
+            case 'progress':
+              setView({ type: 'progress' });
+              break;
+            case 'about':
+              setView({ type: 'about' });
+              break;
+            default:
+              setView({ type: 'home' });
+          }
+        }}
+      />
 
       {view.type === 'home' && (
         <>
@@ -96,6 +126,28 @@ function App() {
           levelColor={view.levelColor}
           onClose={handleGameClose}
         />
+      )}
+
+      {view.type === 'games-hub' && (
+        <GamesHub
+          onBack={() => setView({ type: 'home' })}
+          onGameStart={(gameId, color) => setView({ type: 'game', gameId, levelColor: color })}
+        />
+      )}
+
+      {view.type === 'writing' && (
+        <WritingPractice
+          onBack={() => setView({ type: 'home' })}
+          levelColor="#FFB703"
+        />
+      )}
+
+      {view.type === 'progress' && (
+        <Progress onBack={() => setView({ type: 'home' })} />
+      )}
+
+      {view.type === 'about' && (
+        <About onBack={() => setView({ type: 'home' })} />
       )}
     </div>
   );

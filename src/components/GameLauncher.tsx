@@ -1,5 +1,6 @@
 import LetterFishing from './games/LetterFishing';
 import SoundTreasureHunt from './games/SoundTreasureHunt';
+import CVCBuilder from './games/CVCBuilder';
 
 interface GameLauncherProps {
   gameId: string;
@@ -13,6 +14,8 @@ export default function GameLauncher({ gameId, levelColor, onClose }: GameLaunch
       return <LetterFishing onClose={onClose} levelColor={levelColor} />;
     case 'G2':
       return <SoundTreasureHunt onClose={onClose} levelColor={levelColor} />;
+    case 'G3':
+      return <CVCBuilder onClose={onClose} levelColor={levelColor} />;
     default:
       return (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
