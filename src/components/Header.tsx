@@ -14,6 +14,7 @@ export default function Header({ onNavigation }: HeaderProps) {
     { label: 'Writing', action: 'writing' },
     { label: 'Progress', action: 'progress' },
     { label: 'About', action: 'about' },
+    { label: 'Media Demo', action: 'media-demo' },
   ];
 
   return (

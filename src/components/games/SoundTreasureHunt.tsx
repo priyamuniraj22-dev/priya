@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Volume2, Trophy, X, Sparkles } from 'lucide-react';
+import { playAudio } from '../../utils/mediaPlayer';
 
 interface SoundTreasureHuntProps {
   onClose: () => void;
@@ -30,6 +31,7 @@ export default function SoundTreasureHunt({ onClose, levelColor }: SoundTreasure
 
   const playSound = () => {
     setFeedback({ text: `Find something that starts with "${currentSound}"`, isCorrect: true });
+    playAudio(`letter_${currentSound}.mp3`);
     setTimeout(() => setFeedback(null), 2000);
   };
 
@@ -38,6 +40,7 @@ export default function SoundTreasureHunt({ onClose, levelColor }: SoundTreasure
       setScore(score + 10);
       setFoundItems([...foundItems, item.name]);
       setFeedback({ text: `Amazing! ${item.name} starts with "${currentSound}"!`, isCorrect: true });
+      playAudio('treasure_found.mp3');
 
       setTimeout(() => {
         setFeedback(null);
@@ -48,6 +51,7 @@ export default function SoundTreasureHunt({ onClose, levelColor }: SoundTreasure
       }, 2000);
     } else {
       setFeedback({ text: `Try again! ${item.name} starts with "${item.sound}"`, isCorrect: false });
+      playAudio('treasure_miss.mp3');
       setTimeout(() => setFeedback(null), 2000);
     }
   };

@@ -4,6 +4,8 @@ export interface Level {
   overview: string;
   targetAge: string;
   color: string;
+  audioFiles?: string[];
+  videoFiles?: string[];
 }
 
 export interface Class {
@@ -15,11 +17,15 @@ export interface Class {
   objective: string;
   activities: Activity[];
   games: Game[];
+  audioFiles?: string[];
+  videoFiles?: string[];
 }
 
 export interface Activity {
   type: string;
   description: string;
+  audioFile?: string;
+  videoFile?: string;
 }
 
 export interface Game {
@@ -28,6 +34,8 @@ export interface Game {
   goal: string;
   mechanic: string;
   icon: string;
+  audioFiles?: string[];
+  videoFiles?: string[];
 }
 
 export interface UserProgress {

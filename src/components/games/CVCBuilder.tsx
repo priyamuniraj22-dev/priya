@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Volume2, Trophy, X, Shuffle } from 'lucide-react';
+import { playAudio } from '../../utils/mediaPlayer';
 
 interface CVCBuilderProps {
   onClose: () => void;
@@ -39,6 +40,7 @@ export default function CVCBuilder({ onClose, levelColor }: CVCBuilderProps) {
   const handleLetterSelect = (letter: string) => {
     if (selectedLetters.length < 3) {
       setSelectedLetters([...selectedLetters, letter]);
+      playAudio(`letter_${letter.toLowerCase()}.mp3`);
     }
   };
 
@@ -52,6 +54,7 @@ export default function CVCBuilder({ onClose, levelColor }: CVCBuilderProps) {
       setScore(score + 10);
       setCompletedWords([...completedWords, currentWord.word]);
       setFeedback({ text: `Perfect! ${currentWord.word} is correct!`, isCorrect: true });
+      playAudio('word_complete.mp3');
 
       setTimeout(() => {
         setFeedback(null);
@@ -63,6 +66,7 @@ export default function CVCBuilder({ onClose, levelColor }: CVCBuilderProps) {
       }, 2000);
     } else {
       setFeedback({ text: `Not quite! Try again.`, isCorrect: false });
+      playAudio('word_incorrect.mp3');
       setTimeout(() => {
         setFeedback(null);
         setSelectedLetters([]);
