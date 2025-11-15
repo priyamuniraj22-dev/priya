@@ -1,165 +1,135 @@
 import { useState } from 'react';
+import { AudioProvider } from './contexts/AudioContext';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Levels from './components/Levels';
-import LevelDetail from './components/LevelDetail';
-import ClassDetail from './components/ClassDetail';
-import GameLauncher from './components/GameLauncher';
 import GamesHub from './components/GamesHub';
-import WritingPractice from './components/WritingPractice';
-import Progress from './components/Progress';
+import GameLauncher from './components/GameLauncher';
 import About from './components/About';
 import MediaDemo from './components/MediaDemo';
-import { AudioProvider } from './contexts/AudioContext';
-import { levels, classes } from './data/courseData';
+import AudioTest from './components/AudioTest';
+import Progress from './components/Progress';
+import { Level } from './types/course';
 
-type View =
-  | { type: 'home' }
-  | { type: 'level'; levelId: string }
-  | { type: 'class'; classId: string }
-  | { type: 'game'; gameId: string; levelColor: string }
-  | { type: 'games-hub' }
-  | { type: 'writing' }
-  | { type: 'progress' }
-  | { type: 'about' }
-  | { type: 'media-demo' };
+// Import course data
+import { levels } from './data/courseData';
 
 function App() {
-  const [view, setView] = useState<View>({ type: 'home' });
+  const [currentPage, setCurrentPage] = useState<'home' | 'levels' | 'games' | 'about' | 'media' | 'audio-test' | 'progress'>('home');
+  const [selectedLevelId, setSelectedLevelId] = useState<string | null>(null);
+  const [activeGame, setActiveGame] = useState<{ id: string; color: string } | null>(null);
 
-  const handleLevelSelect = (levelId: string) => {
-    setView({ type: 'level', levelId });
-  };
+  // Find the selected level
+  const selectedLevel = levels.find(level => level.id === selectedLevelId) || null;
 
-  const handleClassSelect = (classId: string) => {
-    setView({ type: 'class', classId });
-  };
-
-  const handleGameStart = (gameId: string, levelColor: string) => {
-    setView({ type: 'game', gameId, levelColor });
-  };
-
-  const handleBack = () => {
-    if (view.type === 'class') {
-      const classData = classes.find(c => c.id === view.classId);
-      if (classData) {
-        setView({ type: 'level', levelId: classData.levelId });
-      }
-    } else {
-      setView({ type: 'home' });
+  const handleNavigation = (section: string) => {
+    switch (section) {
+      case 'lessons':
+        setCurrentPage('home');
+        break;
+      case 'games':
+        setCurrentPage('games');
+        break;
+      case 'writing':
+        // Not implemented yet
+        break;
+      case 'progress':
+        setCurrentPage('progress');
+        break;
+      case 'about':
+        setCurrentPage('about');
+        break;
+      case 'media-demo':
+        setCurrentPage('media');
+        break;
+      case 'audio-test':
+        setCurrentPage('audio-test');
+        break;
+      default:
+        setCurrentPage('home');
     }
   };
 
-  const handleGameClose = () => {
-    if (view.type === 'game') {
-      const previousView = view;
-      setView({ type: 'home' });
-      setTimeout(() => {
-        const allClasses = classes;
-        const currentClass = allClasses.find(c =>
-          c.games.some(g => g.id === previousView.gameId)
+  const handleGameStart = (gameId: string, levelColor: string) => {
+    setActiveGame({ id: gameId, color: levelColor });
+  };
+
+  const closeGame = () => {
+    setActiveGame(null);
+  };
+
+  const renderCurrentPage = () => {
+    // If a game is active, show the game launcher
+    if (activeGame) {
+      return <GameLauncher gameId={activeGame.id} levelColor={activeGame.color} onClose={closeGame} />;
+    }
+
+    switch (currentPage) {
+      case 'home':
+        return (
+          <div>
+            <Hero />
+            <div className="max-w-6xl mx-auto px-4 py-12">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className="lg:col-span-2">
+                  <Levels 
+                    onLevelSelect={setSelectedLevelId} 
+                  />
+                </div>
+                <div>
+                  <Progress onBack={() => setCurrentPage('home')} />
+                </div>
+              </div>
+            </div>
+          </div>
         );
-        if (currentClass) {
-          setView({ type: 'class', classId: currentClass.id });
-        }
-      }, 0);
+      case 'levels':
+        return <Levels onLevelSelect={setSelectedLevelId} />;
+      case 'games':
+        return (
+          <GamesHub 
+            onBack={() => setCurrentPage('home')} 
+            onGameStart={handleGameStart} 
+          />
+        );
+      case 'about':
+        return <About onBack={() => setCurrentPage('home')} />;
+      case 'media':
+        return <MediaDemo onBack={() => setCurrentPage('home')} />;
+      case 'audio-test':
+        return <AudioTest />;
+      case 'progress':
+        return <Progress onBack={() => setCurrentPage('home')} />;
+      default:
+        return (
+          <div>
+            <Hero />
+            <div className="max-w-6xl mx-auto px-4 py-12">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className="lg:col-span-2">
+                  <Levels 
+                    onLevelSelect={setSelectedLevelId} 
+                  />
+                </div>
+                <div>
+                  <Progress onBack={() => setCurrentPage('home')} />
+                </div>
+              </div>
+            </div>
+          </div>
+        );
     }
   };
 
   return (
     <AudioProvider>
-      <div className="min-h-screen bg-gray-50">
-        <Header
-          onNavigation={(section) => {
-            switch (section) {
-              case 'lessons':
-                setView({ type: 'home' });
-                break;
-              case 'games':
-                setView({ type: 'games-hub' });
-                break;
-              case 'writing':
-                setView({ type: 'writing' });
-                break;
-              case 'progress':
-                setView({ type: 'progress' });
-                break;
-              case 'about':
-                setView({ type: 'about' });
-                break;
-              case 'media-demo':
-                setView({ type: 'media-demo' });
-                break;
-              default:
-                setView({ type: 'home' });
-            }
-          }}
+      <div className="min-h-screen bg-gradient-to-b from-blue-50 to-purple-50">
+        <Header 
+          onNavigation={handleNavigation} 
         />
-
-        {view.type === 'home' && (
-          <>
-            <Hero />
-            <Levels onLevelSelect={handleLevelSelect} />
-          </>
-        )}
-
-        {view.type === 'level' && (
-          <LevelDetail
-            level={levels.find(l => l.id === view.levelId)!}
-            classes={classes.filter(c => c.levelId === view.levelId)}
-            onBack={handleBack}
-            onClassSelect={handleClassSelect}
-          />
-        )}
-
-        {view.type === 'class' && (() => {
-          const classData = classes.find(c => c.id === view.classId);
-          const level = levels.find(l => l.id === classData?.levelId);
-          if (!classData || !level) return null;
-
-          return (
-            <ClassDetail
-              classData={classData}
-              levelColor={level.color}
-              onBack={handleBack}
-              onStartGame={(gameId) => handleGameStart(gameId, level.color)}
-            />
-          );
-        })()}
-
-        {view.type === 'game' && (
-          <GameLauncher
-            gameId={view.gameId}
-            levelColor={view.levelColor}
-            onClose={handleGameClose}
-          />
-        )}
-
-        {view.type === 'games-hub' && (
-          <GamesHub
-            onBack={() => setView({ type: 'home' })}
-            onGameStart={(gameId, color) => setView({ type: 'game', gameId, levelColor: color })}
-          />
-        )}
-
-        {view.type === 'writing' && (
-          <WritingPractice
-            onBack={() => setView({ type: 'home' })}
-            levelColor="#FFB703"
-          />
-        )}
-
-        {view.type === 'progress' && (
-          <Progress onBack={() => setView({ type: 'home' })} />
-        )}
-
-        {view.type === 'about' && (
-          <About onBack={() => setView({ type: 'home' })} />
-        )}
-
-        {view.type === 'media-demo' && (
-          <MediaDemo onBack={() => setView({ type: 'home' })} />
-        )}
+        <main>
+          {renderCurrentPage()}
+        </main>
       </div>
     </AudioProvider>
   );

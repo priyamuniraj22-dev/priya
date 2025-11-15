@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useRef, ReactNode } from 'react';
+import { playAudio, stopAudio } from '../utils/mediaPlayer';
 
 interface AudioContextType {
   playAudio: (fileName: string) => void;
@@ -14,31 +15,18 @@ interface AudioProviderProps {
 export const AudioProvider: React.FC<AudioProviderProps> = ({ children }) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const playAudio = (fileName: string) => {
-    try {
-      if (audioRef.current) {
-        audioRef.current.pause();
-      }
-
-      audioRef.current = new Audio(`/audio/${fileName}`);
-      audioRef.current.play().catch(error => {
-        console.warn(`Failed to play audio ${fileName}:`, error);
-      });
-    } catch (error) {
-      console.warn(`Error creating audio player for ${fileName}:`, error);
-    }
+  const playAudioWrapper = (fileName: string) => {
+    // Use the improved media player utility
+    playAudio(fileName);
   };
 
-  const stopAudio = () => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current = null;
-    }
+  const stopAudioWrapper = () => {
+    // Use the improved media player utility
+    stopAudio();
   };
 
   return (
-    <AudioContext.Provider value={{ playAudio, stopAudio }}>
-      <audio ref={audioRef} />
+    <AudioContext.Provider value={{ playAudio: playAudioWrapper, stopAudio: stopAudioWrapper }}>
       {children}
     </AudioContext.Provider>
   );

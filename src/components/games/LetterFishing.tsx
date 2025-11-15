@@ -32,10 +32,12 @@ export default function LetterFishing({ onClose, levelColor }: LetterFishingProp
       setCaught([...caught, letter]);
       setScore(score + 10);
       setFeedback(`Great job! You caught "${letter}"!`);
+      // Use the correct file name format for letters
       playAudio(`letter_${letter}.mp3`);
       setTimeout(() => setFeedback(''), 2000);
     } else if (!targetLetters.includes(letter)) {
       setFeedback(`Oops! "${letter}" is not one of our target letters.`);
+      // Use the correct file name for incorrect letters
       playAudio('incorrect_letter.mp3');
       setTimeout(() => setFeedback(''), 2000);
     }

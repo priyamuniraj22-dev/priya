@@ -1,4 +1,4 @@
-import { BookOpen, Lamp, Menu, X } from 'lucide-react';
+import { BookOpen, Lamp, Menu, X, Volume2 } from 'lucide-react';
 import { useState } from 'react';
 
 interface HeaderProps {
@@ -15,6 +15,7 @@ export default function Header({ onNavigation }: HeaderProps) {
     { label: 'Progress', action: 'progress' },
     { label: 'About', action: 'about' },
     { label: 'Media Demo', action: 'media-demo' },
+    { label: 'Audio Test', action: 'audio-test' },
   ];
 
   return (

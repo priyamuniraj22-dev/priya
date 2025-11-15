@@ -40,6 +40,7 @@ export default function CVCBuilder({ onClose, levelColor }: CVCBuilderProps) {
   const handleLetterSelect = (letter: string) => {
     if (selectedLetters.length < 3) {
       setSelectedLetters([...selectedLetters, letter]);
+      // Use the correct file name format for letters
       playAudio(`letter_${letter.toLowerCase()}.mp3`);
     }
   };
@@ -54,6 +55,7 @@ export default function CVCBuilder({ onClose, levelColor }: CVCBuilderProps) {
       setScore(score + 10);
       setCompletedWords([...completedWords, currentWord.word]);
       setFeedback({ text: `Perfect! ${currentWord.word} is correct!`, isCorrect: true });
+      // Use the correct file name for word completion
       playAudio('word_complete.mp3');
 
       setTimeout(() => {
@@ -66,6 +68,7 @@ export default function CVCBuilder({ onClose, levelColor }: CVCBuilderProps) {
       }, 2000);
     } else {
       setFeedback({ text: `Not quite! Try again.`, isCorrect: false });
+      // Use the correct file name for incorrect words
       playAudio('word_incorrect.mp3');
       setTimeout(() => {
         setFeedback(null);
