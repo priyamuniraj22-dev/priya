@@ -9,7 +9,9 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
-    "generate-placeholders": "node scripts/generatePlaceholders.cjs"
+    "generate-placeholders": "node scripts/generatePlaceholders.cjs",
+    "generate-test-audio": "node scripts/generateTestAudio.cjs",
+    "generate-test-video": "node scripts/generateTestVideo.cjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.57.4",

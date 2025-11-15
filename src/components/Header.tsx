@@ -1,4 +1,4 @@
-import { BookOpen, Lamp, Menu, X, Volume2 } from 'lucide-react';
+import { BookOpen, Lamp, Menu, X, Volume2, Video, Music, Pencil, BookOpenCheck } from 'lucide-react';
 import { useState } from 'react';
 
 interface HeaderProps {
@@ -9,13 +9,14 @@ export default function Header({ onNavigation }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { label: 'Lessons', action: 'lessons' },
-    { label: 'Games', action: 'games' },
-    { label: 'Writing', action: 'writing' },
-    { label: 'Progress', action: 'progress' },
-    { label: 'About', action: 'about' },
-    { label: 'Media Demo', action: 'media-demo' },
-    { label: 'Audio Test', action: 'audio-test' },
+    { label: 'Lessons', action: 'lessons', icon: BookOpen },
+    { label: 'Phonics Sounds', action: 'phonics-sounds', icon: Music },
+    { label: 'Videos', action: 'videos', icon: Video },
+    { label: 'Games', action: 'games', icon: Volume2 },
+    { label: 'Writing', action: 'writing', icon: Pencil },
+    { label: 'Reading Fun', action: 'reading-fun', icon: BookOpenCheck },
+    { label: 'Progress', action: 'progress', icon: BookOpen },
+    { label: 'About', action: 'about', icon: BookOpen },
   ];
 
   return (
@@ -37,19 +38,24 @@ export default function Header({ onNavigation }: HeaderProps) {
           </button>
 
           <nav className="hidden md:flex items-center gap-6">
-            {navItems.map((item) => (
-              <button
-                key={item.action}
-                onClick={() => onNavigation(item.action)}
-                className="text-gray-700 hover:text-[#FFB703] transition-colors font-medium whitespace-nowrap"
-              >
-                {item.label}
-              </button>
-            ))}
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <button
+                  key={item.action}
+                  onClick={() => onNavigation(item.action)}
+                  className="flex items-center gap-2 text-gray-700 hover:text-[#FFB703] transition-colors font-medium whitespace-nowrap"
+                >
+                  <Icon className="w-4 h-4" />
+                  <span>{item.label}</span>
+                </button>
+              );
+            })}
             <button
               onClick={() => onNavigation('lessons')}
-              className="bg-[#FFB703] text-white px-6 py-2 rounded-full hover:bg-[#e6a600] transition-colors font-medium shadow-md hover:shadow-lg whitespace-nowrap"
+              className="bg-[#FFB703] text-white px-6 py-2 rounded-full hover:bg-[#e6a600] transition-colors font-medium shadow-md hover:shadow-lg whitespace-nowrap flex items-center gap-2"
             >
+              <BookOpen className="w-4 h-4" />
               Start Learning
             </button>
           </nav>
@@ -68,18 +74,32 @@ export default function Header({ onNavigation }: HeaderProps) {
 
         {mobileMenuOpen && (
           <nav className="md:hidden mt-4 pb-4 border-t pt-4 space-y-3">
-            {navItems.map((item) => (
-              <button
-                key={item.action}
-                onClick={() => {
-                  onNavigation(item.action);
-                  setMobileMenuOpen(false);
-                }}
-                className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg font-medium transition-colors"
-              >
-                {item.label}
-              </button>
-            ))}
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <button
+                  key={item.action}
+                  onClick={() => {
+                    onNavigation(item.action);
+                    setMobileMenuOpen(false);
+                  }}
+                  className="flex items-center gap-3 w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg font-medium transition-colors"
+                >
+                  <Icon className="w-4 h-4" />
+                  <span>{item.label}</span>
+                </button>
+              );
+            })}
+            <button
+              onClick={() => {
+                onNavigation('lessons');
+                setMobileMenuOpen(false);
+              }}
+              className="flex items-center gap-3 w-full text-left px-4 py-2 bg-[#FFB703] text-white rounded-lg font-medium transition-colors"
+            >
+              <BookOpen className="w-4 h-4" />
+              <span>Start Learning</span>
+            </button>
           </nav>
         )}
       </div>

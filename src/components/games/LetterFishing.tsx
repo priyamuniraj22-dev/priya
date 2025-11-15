@@ -3,14 +3,14 @@ import { Fish, Trophy, X } from 'lucide-react';
 import { playAudio } from '../../utils/mediaPlayer';
 
 interface LetterFishingProps {
+  levelColor?: string;
   onClose: () => void;
-  levelColor: string;
 }
 
 const targetLetters = ['a', 'b', 'c', 'd', 'e', 'f'];
 const allLetters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
 
-export default function LetterFishing({ onClose, levelColor }: LetterFishingProps) {
+export default function LetterFishing({ levelColor = '#FFB703', onClose }: LetterFishingProps) {
   const [score, setScore] = useState(0);
   const [caught, setCaught] = useState<string[]>([]);
   const [fishLetters, setFishLetters] = useState<Array<{ letter: string; x: number; y: number }>>([]);

@@ -8,14 +8,38 @@ import GameLauncher from './components/GameLauncher';
 import About from './components/About';
 import MediaDemo from './components/MediaDemo';
 import AudioTest from './components/AudioTest';
+import AudioChecker from './components/AudioChecker';
 import Progress from './components/Progress';
+import WritingPractice from './components/WritingPractice';
+import PhonicsSounds from './components/PhonicsSounds';
+import VideosLibrary from './components/VideosLibrary';
+import ReadingFun from './components/ReadingFun';
+import MakeReadingFun from './components/MakeReadingFun';
+import StudentDashboard from './components/StudentDashboard';
+import TeacherDashboard from './components/TeacherDashboard';
+import RealLessonProgress from './components/RealLessonProgress';
+import RealGameScores from './components/RealGameScores';
+import RealVideoProgress from './components/RealVideoProgress';
+import RealBadgeProgress from './components/RealBadgeProgress';
 import { Level } from './types/course';
 
 // Import course data
 import { levels } from './data/courseData';
 
+// Mock user data - in a real app, this would come from authentication
+const mockUser = {
+  id: 'user-123',
+  name: 'Emma Johnson',
+  role: 'student' as 'student' | 'teacher',
+  classId: 'class-456'
+};
+
 function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'levels' | 'games' | 'about' | 'media' | 'audio-test' | 'progress'>('home');
+  const [currentPage, setCurrentPage] = useState<
+    'home' | 'levels' | 'games' | 'about' | 'media' | 'audio-test' | 'audio-checker' | 
+    'progress' | 'writing' | 'videos' | 'phonics-sounds' | 'reading-fun' | 'make-reading-fun' |
+    'student-dashboard' | 'teacher-dashboard' | 'real-lessons' | 'real-games' | 'real-videos' | 'real-badges'
+  >('home');
   const [selectedLevelId, setSelectedLevelId] = useState<string | null>(null);
   const [activeGame, setActiveGame] = useState<{ id: string; color: string } | null>(null);
 
@@ -31,7 +55,7 @@ function App() {
         setCurrentPage('games');
         break;
       case 'writing':
-        // Not implemented yet
+        setCurrentPage('writing');
         break;
       case 'progress':
         setCurrentPage('progress');
@@ -45,6 +69,40 @@ function App() {
       case 'audio-test':
         setCurrentPage('audio-test');
         break;
+      case 'audio-checker':
+        setCurrentPage('audio-checker');
+        break;
+      case 'videos':
+        setCurrentPage('videos');
+        break;
+      case 'phonics-sounds':
+        setCurrentPage('phonics-sounds');
+        break;
+      case 'reading-fun':
+        setCurrentPage('reading-fun');
+        break;
+      case 'make-reading-fun':
+        setCurrentPage('make-reading-fun');
+        break;
+      // New dashboard pages
+      case 'student-dashboard':
+        setCurrentPage('student-dashboard');
+        break;
+      case 'teacher-dashboard':
+        setCurrentPage('teacher-dashboard');
+        break;
+      case 'real-lessons':
+        setCurrentPage('real-lessons');
+        break;
+      case 'real-games':
+        setCurrentPage('real-games');
+        break;
+      case 'real-videos':
+        setCurrentPage('real-videos');
+        break;
+      case 'real-badges':
+        setCurrentPage('real-badges');
+        break;
       default:
         setCurrentPage('home');
     }
@@ -56,6 +114,14 @@ function App() {
 
   const closeGame = () => {
     setActiveGame(null);
+  };
+
+  const handleBackToDashboard = () => {
+    if (mockUser.role === 'student') {
+      setCurrentPage('student-dashboard');
+    } else {
+      setCurrentPage('teacher-dashboard');
+    }
   };
 
   const renderCurrentPage = () => {
@@ -126,6 +192,14 @@ function App() {
             </div>
           </div>
         );
+      case 'audio-checker':
+        return (
+          <div className="min-h-screen flex flex-col">
+            <div className="flex-grow container mx-auto px-4 py-12">
+              <AudioChecker />
+            </div>
+          </div>
+        );
       case 'progress':
         return (
           <div className="min-h-screen flex flex-col">
@@ -133,6 +207,92 @@ function App() {
               <Progress onBack={() => setCurrentPage('home')} />
             </div>
           </div>
+        );
+      case 'writing':
+        return (
+          <div className="min-h-screen flex flex-col">
+            <div className="flex-grow">
+              <WritingPractice />
+            </div>
+          </div>
+        );
+      case 'videos':
+        return (
+          <div className="min-h-screen flex flex-col">
+            <div className="flex-grow">
+              <VideosLibrary />
+            </div>
+          </div>
+        );
+      case 'phonics-sounds':
+        return (
+          <div className="min-h-screen flex flex-col">
+            <div className="flex-grow">
+              <PhonicsSounds />
+            </div>
+          </div>
+        );
+      case 'reading-fun':
+        return (
+          <div className="min-h-screen flex flex-col">
+            <div className="flex-grow">
+              <ReadingFun />
+            </div>
+          </div>
+        );
+      case 'make-reading-fun':
+        return (
+          <div className="min-h-screen flex flex-col">
+            <div className="flex-grow">
+              <MakeReadingFun />
+            </div>
+          </div>
+        );
+      // New dashboard pages
+      case 'student-dashboard':
+        return (
+          <StudentDashboard 
+            studentName={mockUser.name} 
+            userId={mockUser.id}
+            onNavigate={handleNavigation} 
+          />
+        );
+      case 'teacher-dashboard':
+        return (
+          <TeacherDashboard 
+            teacherName={mockUser.name} 
+            userId={mockUser.id}
+          />
+        );
+      case 'real-lessons':
+        return (
+          <RealLessonProgress 
+            userId={mockUser.id} 
+            classId={mockUser.classId}
+            onBack={handleBackToDashboard} 
+          />
+        );
+      case 'real-games':
+        return (
+          <RealGameScores 
+            userId={mockUser.id} 
+            classId={mockUser.classId}
+            onBack={handleBackToDashboard} 
+          />
+        );
+      case 'real-videos':
+        return (
+          <RealVideoProgress 
+            userId={mockUser.id} 
+            onBack={handleBackToDashboard} 
+          />
+        );
+      case 'real-badges':
+        return (
+          <RealBadgeProgress 
+            userId={mockUser.id} 
+            onBack={handleBackToDashboard} 
+          />
         );
       default:
         return (

@@ -3,8 +3,8 @@ import { Volume2, Trophy, X, Shuffle } from 'lucide-react';
 import { playAudio } from '../../utils/mediaPlayer';
 
 interface CVCBuilderProps {
+  levelColor?: string;
   onClose: () => void;
-  levelColor: string;
 }
 
 const cvcWords = [
@@ -16,7 +16,7 @@ const cvcWords = [
   { word: 'RAT', image: '🐭', hint: 'A small rodent' },
 ];
 
-export default function CVCBuilder({ onClose, levelColor }: CVCBuilderProps) {
+export default function CVCBuilder({ levelColor = '#FFB703', onClose }: CVCBuilderProps) {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [selectedLetters, setSelectedLetters] = useState<string[]>([]);
   const [score, setScore] = useState(0);
@@ -198,23 +198,33 @@ export default function CVCBuilder({ onClose, levelColor }: CVCBuilderProps) {
                 onClick={handleCheck}
                 disabled={selectedLetters.length !== 3}
                 className={`flex-1 py-3 rounded-xl font-semibold text-white transition-all ${
-                  selectedLetters.length === 3 ? 'hover:shadow-lg' : 'opacity-50 cursor-not-allowed'
+                  selectedLetters.length === 3
+                    ? 'bg-[#FFB703] hover:bg-[#e6a600] hover:shadow-lg'
+                    : 'bg-gray-300 cursor-not-allowed'
                 }`}
-                style={{ backgroundColor: levelColor }}
+                style={{
+                  backgroundColor: selectedLetters.length === 3 ? levelColor : undefined,
+                }}
               >
-                Check
+                Check Word
               </button>
             </div>
           </div>
 
           {isComplete && (
-            <button
-              onClick={onClose}
-              className="w-full py-3 md:py-4 rounded-xl font-bold text-white text-lg hover:shadow-lg transition-all"
-              style={{ backgroundColor: levelColor }}
-            >
-              Continue Learning
-            </button>
+            <div className="text-center">
+              <div className="inline-flex items-center gap-3 bg-gradient-to-r from-[#FFB703] to-[#00B4D8] text-white px-8 py-4 rounded-full text-xl font-bold mb-6">
+                <Trophy className="w-6 h-6" />
+                You built all the words!
+              </div>
+              <button
+                onClick={onClose}
+                className="block w-full py-4 rounded-xl font-bold text-white text-lg hover:shadow-lg transition-all"
+                style={{ backgroundColor: levelColor }}
+              >
+                Continue Learning
+              </button>
+            </div>
           )}
         </div>
       </div>

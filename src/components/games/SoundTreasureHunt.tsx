@@ -3,8 +3,8 @@ import { Volume2, Trophy, X, Sparkles } from 'lucide-react';
 import { playAudio } from '../../utils/mediaPlayer';
 
 interface SoundTreasureHuntProps {
+  levelColor?: string;
   onClose: () => void;
-  levelColor: string;
 }
 
 const items = [
@@ -18,7 +18,7 @@ const items = [
   { name: 'hat', sound: 'h', emoji: '🎩' },
 ];
 
-export default function SoundTreasureHunt({ onClose, levelColor }: SoundTreasureHuntProps) {
+export default function SoundTreasureHunt({ levelColor = '#FFB703', onClose }: SoundTreasureHuntProps) {
   const [currentSound, setCurrentSound] = useState('a');
   const [score, setScore] = useState(0);
   const [foundItems, setFoundItems] = useState<string[]>([]);

@@ -61,6 +61,15 @@ export class AudioPlayer {
         }
       });
       
+      // Add loadeddata event to check if file actually loaded
+      this.audio.addEventListener('loadeddata', () => {
+        // Check if the audio actually has data
+        if (this.audio && this.audio.duration <= 0) {
+          console.warn(`Audio file ${fileName} has no playable data`);
+          this.playFallbackSound(`No data in ${fileName}`);
+        }
+      });
+      
       this.audio.play().catch(error => {
         console.warn(`Failed to play audio ${fileName}:`, error);
         // Try to play a fallback sound
