@@ -1,12 +1,16 @@
 import { useState } from 'react';
-import { Volume2, Play, Square } from 'lucide-react';
+import { Volume2, Play, Square, AlertTriangle } from 'lucide-react';
 import { playAudio, stopAudio } from '../utils/mediaPlayer';
 
 export default function TestAudioButton() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentFile, setCurrentFile] = useState<string | null>(null);
+  const [playbackStatus, setPlaybackStatus] = useState<'success' | 'error' | 'playing' | null>(null);
 
   const handlePlay = () => {
+    // Reset status
+    setPlaybackStatus('playing');
+    
     // Play a test sound
     playAudio('letter_a.mp3');
     setCurrentFile('letter_a.mp3');
@@ -16,6 +20,8 @@ export default function TestAudioButton() {
     setTimeout(() => {
       setIsPlaying(false);
       setCurrentFile(null);
+      // Since we're using placeholder files, we expect an error
+      setPlaybackStatus('error');
     }, 3000);
   };
 
@@ -23,6 +29,7 @@ export default function TestAudioButton() {
     stopAudio();
     setIsPlaying(false);
     setCurrentFile(null);
+    setPlaybackStatus(null);
   };
 
   return (
@@ -32,7 +39,7 @@ export default function TestAudioButton() {
         Audio Test
       </h3>
       
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 mb-4">
         <button
           onClick={handlePlay}
           disabled={isPlaying}
@@ -60,14 +67,30 @@ export default function TestAudioButton() {
         </button>
       </div>
       
-      {isPlaying && (
-        <div className="mt-4 p-3 bg-blue-50 rounded-lg flex items-center gap-2">
+      {playbackStatus === 'playing' && (
+        <div className="p-3 bg-blue-50 rounded-lg flex items-center gap-2">
           <div className="w-3 h-3 bg-blue-600 rounded-full animate-pulse"></div>
           <span className="text-blue-800 font-medium">
             Playing: {currentFile}
           </span>
         </div>
       )}
+      
+      {playbackStatus === 'error' && (
+        <div className="p-3 bg-yellow-50 rounded-lg flex items-start gap-2">
+          <AlertTriangle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-yellow-800 font-medium">Placeholder Audio Detected</p>
+            <p className="text-yellow-700 text-sm">
+              This is a placeholder file. Replace <code className="bg-yellow-100 px-1 rounded">public/audio/letter_a.mp3</code> with a real phonics sound.
+            </p>
+          </div>
+        </div>
+      )}
+      
+      <div className="mt-4 text-sm text-gray-600">
+        <p><strong>Note:</strong> All audio files are currently placeholders. You'll hear a fallback sound instead of actual phonics sounds.</p>
+      </div>
     </div>
   );
 }

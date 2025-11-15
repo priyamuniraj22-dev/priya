@@ -47,28 +47,48 @@ export class AudioPlayer {
       // Add event listeners for better error handling
       this.audio.addEventListener('error', (e) => {
         console.warn(`Failed to load audio ${fileName}:`, e);
+        // Try to play a fallback sound with specific message
+        this.playFallbackSound(`Error loading ${fileName}`);
+      });
+      
+      // Check if the file actually has content
+      this.audio.addEventListener('loadedmetadata', () => {
+        // If duration is NaN or 0, the file is likely empty
+        if (isNaN(this.audio!.duration) || this.audio!.duration <= 0) {
+          console.warn(`Audio file ${fileName} appears to be empty or invalid`);
+          // Try to play a fallback sound with specific message
+          this.playFallbackSound(`Empty audio file ${fileName}`);
+        }
       });
       
       this.audio.play().catch(error => {
         console.warn(`Failed to play audio ${fileName}:`, error);
         // Try to play a fallback sound
-        this.playFallbackSound();
+        this.playFallbackSound(`Playback failed for ${fileName}`);
       });
     } catch (error) {
       console.warn(`Error creating audio player for ${fileName}:`, error);
-      this.playFallbackSound();
+      this.playFallbackSound(`Error with ${fileName}`);
     }
   }
 
   /**
    * Play a fallback sound when the requested audio fails
+   * @param message - Optional message to identify which sound failed
    */
-  private playFallbackSound(): void {
+  private playFallbackSound(message?: string): void {
     try {
+      // Log the message for debugging
+      if (message) {
+        console.info(`Playing fallback sound: ${message}`);
+      }
+      
       if (this.audio) {
         this.audio.pause();
       }
-      // Play a simple beep as fallback using the Web Audio API
+      
+      // Play a distinctive fallback sound using the Web Audio API
+      // This creates a more noticeable sound than a simple beep
       const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
@@ -76,14 +96,20 @@ export class AudioPlayer {
       oscillator.connect(gainNode);
       gainNode.connect(audioContext.destination);
       
+      // Create a more distinctive sound
       oscillator.type = 'sine';
-      oscillator.frequency.value = 800;
-      gainNode.gain.value = 0.3;
+      oscillator.frequency.value = 600; // Higher pitch
+      gainNode.gain.value = 0.2;
+      
+      // Add some variation to make it more noticeable
+      const now = audioContext.currentTime;
+      gainNode.gain.setValueAtTime(0.2, now);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
       
       oscillator.start();
       setTimeout(() => {
         oscillator.stop();
-      }, 200);
+      }, 300);
     } catch (error) {
       console.warn('Failed to play fallback sound:', error);
     }
