@@ -48,30 +48,30 @@ export default function LetterFishing({ onClose, levelColor }: LetterFishingProp
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-auto">
-        <div className="sticky top-0 bg-white border-b-2 border-gray-100 p-6 flex items-center justify-between">
+        <div className="sticky top-0 bg-white border-b-2 border-gray-100 p-4 md:p-6 flex items-center justify-between">
           <div>
-            <h2 className="text-3xl font-bold text-gray-900">Letter Fishing</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Letter Fishing</h2>
             <p className="text-gray-600 mt-1">Catch fish with letters a-f!</p>
           </div>
           <button
             onClick={onClose}
-            className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
+            className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
           >
-            <X className="w-6 h-6" />
+            <X className="w-5 h-5 md:w-6 md:h-6" />
           </button>
         </div>
 
-        <div className="p-8">
-          <div className="flex items-center justify-between mb-8">
+        <div className="p-4 md:p-8">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6 md:mb-8">
             <div className="flex items-center gap-4">
-              <div className="text-2xl font-bold text-gray-900">Score: {score}</div>
+              <div className="text-xl md:text-2xl font-bold text-gray-900">Score: {score}</div>
               <div className="text-gray-600">
                 Caught: {caught.length}/{targetLetters.length}
               </div>
             </div>
             {isComplete && (
               <div className="flex items-center gap-2 text-green-600 font-bold text-lg">
-                <Trophy className="w-6 h-6" />
+                <Trophy className="w-5 h-5 md:w-6 md:h-6" />
                 Complete!
               </div>
             )}
@@ -86,7 +86,7 @@ export default function LetterFishing({ onClose, levelColor }: LetterFishingProp
             </div>
           )}
 
-          <div className="bg-gradient-to-b from-[#00B4D8]/20 to-[#00B4D8]/40 rounded-2xl p-8 relative min-h-[400px]">
+          <div className="bg-gradient-to-b from-[#00B4D8]/20 to-[#00B4D8]/40 rounded-2xl p-6 md:p-8 relative min-h-[300px] md:min-h-[400px]">
             <div className="absolute inset-0 rounded-2xl overflow-hidden">
               {fishLetters.map((fish, index) => (
                 <button
@@ -100,12 +100,12 @@ export default function LetterFishing({ onClose, levelColor }: LetterFishingProp
                 >
                   <div className="relative">
                     <Fish
-                      className={`w-16 h-16 ${
+                      className={`w-12 h-12 md:w-16 md:h-16 ${
                         targetLetters.includes(fish.letter) ? 'text-[#FFB703]' : 'text-gray-400'
                       }`}
                     />
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-2xl font-bold text-white drop-shadow-lg">
+                      <span className="text-xl md:text-2xl font-bold text-white drop-shadow-lg">
                         {fish.letter}
                       </span>
                     </div>
@@ -115,13 +115,13 @@ export default function LetterFishing({ onClose, levelColor }: LetterFishingProp
             </div>
           </div>
 
-          <div className="mt-8 bg-gray-50 rounded-xl p-6">
+          <div className="mt-6 md:mt-8 bg-gray-50 rounded-xl p-4 md:p-6">
             <h3 className="font-bold text-gray-900 mb-3">Target Letters:</h3>
-            <div className="flex gap-3">
+            <div className="flex gap-2 md:gap-3 flex-wrap">
               {targetLetters.map((letter) => (
                 <div
                   key={letter}
-                  className={`w-12 h-12 rounded-lg flex items-center justify-center text-xl font-bold transition-all ${
+                  className={`w-10 h-10 md:w-12 md:h-12 rounded-lg flex items-center justify-center text-lg md:text-xl font-bold transition-all ${
                     caught.includes(letter)
                       ? 'bg-green-500 text-white scale-110'
                       : 'bg-white text-gray-400 border-2 border-gray-200'
@@ -136,7 +136,7 @@ export default function LetterFishing({ onClose, levelColor }: LetterFishingProp
           {isComplete && (
             <button
               onClick={onClose}
-              className="w-full mt-6 py-4 rounded-xl font-bold text-white text-lg hover:shadow-lg transition-all"
+              className="w-full mt-6 py-3 md:py-4 rounded-xl font-bold text-white text-lg hover:shadow-lg transition-all"
               style={{ backgroundColor: levelColor }}
             >
               Continue Learning

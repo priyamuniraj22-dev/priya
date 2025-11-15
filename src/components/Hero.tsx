@@ -1,4 +1,4 @@
-import { BookOpen, Sparkles, Volume2 } from 'lucide-react';
+import { BookOpen, Sparkles } from 'lucide-react';
 import TestAudioButton from './TestAudioButton';
 
 export default function Hero() {
@@ -18,7 +18,7 @@ export default function Hero() {
             <span className="text-white font-medium">Interactive Phonics Learning</span>
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
             Make Reading <span className="text-[#FFB703]">Fun</span> & <span className="text-[#00B4D8]">Easy</span>
           </h1>
           
@@ -27,10 +27,10 @@ export default function Hero() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <button className="bg-white text-gray-900 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+            <button className="bg-white text-gray-900 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 whitespace-nowrap">
               Start Free Trial
             </button>
-            <button className="bg-black/20 backdrop-blur-sm text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-black/30 transition-all border border-white/30">
+            <button className="bg-black/20 backdrop-blur-sm text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-black/30 transition-all border border-white/30 whitespace-nowrap">
               Watch Demo
             </button>
           </div>

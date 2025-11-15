@@ -41,14 +41,14 @@ export default function Header({ onNavigation }: HeaderProps) {
               <button
                 key={item.action}
                 onClick={() => onNavigation(item.action)}
-                className="text-gray-700 hover:text-[#FFB703] transition-colors font-medium"
+                className="text-gray-700 hover:text-[#FFB703] transition-colors font-medium whitespace-nowrap"
               >
                 {item.label}
               </button>
             ))}
             <button
               onClick={() => onNavigation('lessons')}
-              className="bg-[#FFB703] text-white px-6 py-2 rounded-full hover:bg-[#e6a600] transition-colors font-medium shadow-md hover:shadow-lg"
+              className="bg-[#FFB703] text-white px-6 py-2 rounded-full hover:bg-[#e6a600] transition-colors font-medium shadow-md hover:shadow-lg whitespace-nowrap"
             >
               Start Learning
             </button>

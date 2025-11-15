@@ -88,28 +88,28 @@ export default function CVCBuilder({ onClose, levelColor }: CVCBuilderProps) {
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-auto">
-        <div className="sticky top-0 bg-white border-b-2 border-gray-100 p-6 flex items-center justify-between">
+        <div className="sticky top-0 bg-white border-b-2 border-gray-100 p-4 md:p-6 flex items-center justify-between">
           <div>
-            <h2 className="text-3xl font-bold text-gray-900">CVC Builder</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">CVC Builder</h2>
             <p className="text-gray-600 mt-1">Build the correct word!</p>
           </div>
           <button
             onClick={onClose}
-            className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
+            className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
           >
-            <X className="w-6 h-6" />
+            <X className="w-5 h-5 md:w-6 md:h-6" />
           </button>
         </div>
 
-        <div className="p-8">
-          <div className="flex items-center justify-between mb-8">
+        <div className="p-4 md:p-8">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6 md:mb-8">
             <div className="flex items-center gap-4">
-              <div className="text-2xl font-bold text-gray-900">Score: {score}</div>
+              <div className="text-xl md:text-2xl font-bold text-gray-900">Score: {score}</div>
               <div className="text-gray-600">Completed: {completedWords.length}/{cvcWords.length}</div>
             </div>
             {isComplete && (
               <div className="flex items-center gap-2 text-green-600 font-bold text-lg">
-                <Trophy className="w-6 h-6" />
+                <Trophy className="w-5 h-5 md:w-6 md:h-6" />
                 Complete!
               </div>
             )}
@@ -126,23 +126,23 @@ export default function CVCBuilder({ onClose, levelColor }: CVCBuilderProps) {
             </div>
           )}
 
-          <div className="bg-gradient-to-b from-gray-50 to-white rounded-2xl p-8 mb-8 border-2 border-gray-200">
-            <div className="flex items-center justify-center gap-4 mb-8">
-              <div className="text-6xl">{currentWord.image}</div>
+          <div className="bg-gradient-to-b from-gray-50 to-white rounded-2xl p-6 md:p-8 mb-6 md:mb-8 border-2 border-gray-200">
+            <div className="flex items-center justify-center gap-4 mb-6 md:mb-8">
+              <div className="text-4xl md:text-6xl">{currentWord.image}</div>
               <div className="text-center">
                 <p className="text-gray-600 font-medium mb-2">Build this word:</p>
                 <p className="text-sm text-gray-500">{currentWord.hint}</p>
               </div>
             </div>
 
-            <div className="bg-white rounded-xl p-6 mb-6 border-2 border-dashed border-gray-300">
-              <div className="flex justify-center gap-3">
+            <div className="bg-white rounded-xl p-4 md:p-6 mb-6 border-2 border-dashed border-gray-300">
+              <div className="flex justify-center gap-2 md:gap-3">
                 {[0, 1, 2].map((index) => (
                   <button
                     key={index}
                     onClick={() => handleLetterRemove(index)}
                     disabled={!selectedLetters[index]}
-                    className={`w-20 h-20 rounded-lg font-bold text-2xl transition-all ${
+                    className={`w-16 h-16 md:w-20 md:h-20 rounded-lg font-bold text-xl md:text-2xl transition-all ${
                       selectedLetters[index]
                         ? 'bg-gradient-to-br hover:scale-110 cursor-pointer'
                         : 'bg-gray-100 cursor-default border-2 border-dashed border-gray-300'
@@ -163,13 +163,13 @@ export default function CVCBuilder({ onClose, levelColor }: CVCBuilderProps) {
 
             <div className="mb-6">
               <p className="text-sm font-semibold text-gray-600 mb-3">Available Letters:</p>
-              <div className="flex gap-3 justify-center flex-wrap">
+              <div className="flex gap-2 md:gap-3 justify-center flex-wrap">
                 {shuffledLetters.map((letter, index) => (
                   <button
                     key={index}
                     onClick={() => handleLetterSelect(letter)}
                     disabled={!availableLetters.includes(letter)}
-                    className={`w-14 h-14 rounded-xl font-bold text-xl transition-all ${
+                    className={`w-12 h-12 md:w-14 md:h-14 rounded-xl font-bold text-lg md:text-xl transition-all ${
                       availableLetters.includes(letter)
                         ? 'bg-white border-2 hover:scale-110 hover:shadow-md'
                         : 'bg-gray-100 border-2 border-gray-300 cursor-not-allowed opacity-50'
@@ -185,7 +185,7 @@ export default function CVCBuilder({ onClose, levelColor }: CVCBuilderProps) {
               </div>
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-3">
               <button
                 onClick={shuffleLetters}
                 className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-semibold border-2 transition-all"
@@ -210,7 +210,7 @@ export default function CVCBuilder({ onClose, levelColor }: CVCBuilderProps) {
           {isComplete && (
             <button
               onClick={onClose}
-              className="w-full py-4 rounded-xl font-bold text-white text-lg hover:shadow-lg transition-all"
+              className="w-full py-3 md:py-4 rounded-xl font-bold text-white text-lg hover:shadow-lg transition-all"
               style={{ backgroundColor: levelColor }}
             >
               Continue Learning

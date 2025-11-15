@@ -67,9 +67,9 @@ function App() {
     switch (currentPage) {
       case 'home':
         return (
-          <div>
+          <div className="min-h-screen flex flex-col">
             <Hero />
-            <div className="max-w-6xl mx-auto px-4 py-12">
+            <div className="flex-grow container mx-auto px-4 py-12">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-2">
                   <Levels 
@@ -84,27 +84,61 @@ function App() {
           </div>
         );
       case 'levels':
-        return <Levels onLevelSelect={setSelectedLevelId} />;
+        return (
+          <div className="min-h-screen flex flex-col">
+            <div className="flex-grow container mx-auto px-4 py-12">
+              <Levels onLevelSelect={setSelectedLevelId} />
+            </div>
+          </div>
+        );
       case 'games':
         return (
-          <GamesHub 
-            onBack={() => setCurrentPage('home')} 
-            onGameStart={handleGameStart} 
-          />
+          <div className="min-h-screen flex flex-col">
+            <div className="flex-grow container mx-auto px-4 py-12">
+              <GamesHub 
+                onBack={() => setCurrentPage('home')} 
+                onGameStart={handleGameStart} 
+              />
+            </div>
+          </div>
         );
       case 'about':
-        return <About onBack={() => setCurrentPage('home')} />;
+        return (
+          <div className="min-h-screen flex flex-col">
+            <div className="flex-grow container mx-auto px-4 py-12">
+              <About onBack={() => setCurrentPage('home')} />
+            </div>
+          </div>
+        );
       case 'media':
-        return <MediaDemo onBack={() => setCurrentPage('home')} />;
+        return (
+          <div className="min-h-screen flex flex-col">
+            <div className="flex-grow container mx-auto px-4 py-12">
+              <MediaDemo onBack={() => setCurrentPage('home')} />
+            </div>
+          </div>
+        );
       case 'audio-test':
-        return <AudioTest />;
+        return (
+          <div className="min-h-screen flex flex-col">
+            <div className="flex-grow container mx-auto px-4 py-12">
+              <AudioTest />
+            </div>
+          </div>
+        );
       case 'progress':
-        return <Progress onBack={() => setCurrentPage('home')} />;
+        return (
+          <div className="min-h-screen flex flex-col">
+            <div className="flex-grow container mx-auto px-4 py-12">
+              <Progress onBack={() => setCurrentPage('home')} />
+            </div>
+          </div>
+        );
       default:
         return (
-          <div>
+          <div className="min-h-screen flex flex-col">
             <Hero />
-            <div className="max-w-6xl mx-auto px-4 py-12">
+            <div className="flex-grow container mx-auto px-4 py-12">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-2">
                   <Levels 
@@ -123,13 +157,18 @@ function App() {
 
   return (
     <AudioProvider>
-      <div className="min-h-screen bg-gradient-to-b from-blue-50 to-purple-50">
+      <div className="min-h-screen bg-gradient-to-b from-blue-50 to-purple-50 flex flex-col">
         <Header 
           onNavigation={handleNavigation} 
         />
-        <main>
+        <main className="flex-grow">
           {renderCurrentPage()}
         </main>
+        <footer className="bg-white border-t py-6">
+          <div className="container mx-auto px-4 text-center text-gray-600">
+            <p>© {new Date().getFullYear()} PhonicsPlayhouse. All rights reserved.</p>
+          </div>
+        </footer>
       </div>
     </AudioProvider>
   );

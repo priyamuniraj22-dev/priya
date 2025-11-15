@@ -34,16 +34,16 @@ export default function TestAudioButton() {
 
   return (
     <div className="bg-white rounded-xl p-6 shadow-lg">
-      <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+      <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
         <Volume2 className="w-5 h-5 text-blue-600" />
         Audio Test
       </h3>
       
-      <div className="flex items-center gap-4 mb-4">
+      <div className="flex flex-col sm:flex-row items-center gap-4 mb-4">
         <button
           onClick={handlePlay}
           disabled={isPlaying}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors w-full sm:w-auto justify-center ${
             isPlaying 
               ? 'bg-gray-200 text-gray-500 cursor-not-allowed' 
               : 'bg-blue-100 text-blue-700 hover:bg-blue-200'
@@ -56,7 +56,7 @@ export default function TestAudioButton() {
         <button
           onClick={handleStop}
           disabled={!isPlaying}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors w-full sm:w-auto justify-center ${
             !isPlaying 
               ? 'bg-gray-200 text-gray-500 cursor-not-allowed' 
               : 'bg-red-100 text-red-700 hover:bg-red-200'

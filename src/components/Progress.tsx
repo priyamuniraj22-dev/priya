@@ -40,23 +40,23 @@ export default function Progress({ onBack }: ProgressProps) {
   const totalScore = recentAchievements.reduce((sum, a) => sum + a.score, 0);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="bg-gray-50 py-8 md:py-12">
       <div className="container mx-auto px-4 max-w-6xl">
         <button
           onClick={onBack}
-          className="flex items-center gap-2 text-gray-700 hover:text-gray-900 mb-8 font-medium group"
+          className="flex items-center gap-2 text-gray-700 hover:text-gray-900 mb-6 md:mb-8 font-medium group"
         >
           <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
           Back
         </button>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-gradient-to-br from-[#FFB703]/20 to-[#FFB703]/10 rounded-2xl p-8 border-2 border-[#FFB703]/30">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
+          <div className="bg-gradient-to-br from-[#FFB703]/20 to-[#FFB703]/10 rounded-2xl p-6 md:p-8 border-2 border-[#FFB703]/30">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-gray-900">Overall Progress</h3>
               <Target className="w-6 h-6 text-[#FFB703]" />
             </div>
-            <div className="text-4xl font-bold text-[#FFB703] mb-2">{totalProgress}%</div>
+            <div className="text-3xl md:text-4xl font-bold text-[#FFB703] mb-2">{totalProgress}%</div>
             <div className="w-full bg-gray-300 h-3 rounded-full overflow-hidden">
               <div
                 className="h-full transition-all duration-500"
@@ -65,28 +65,28 @@ export default function Progress({ onBack }: ProgressProps) {
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-[#00B4D8]/20 to-[#00B4D8]/10 rounded-2xl p-8 border-2 border-[#00B4D8]/30">
+          <div className="bg-gradient-to-br from-[#00B4D8]/20 to-[#00B4D8]/10 rounded-2xl p-6 md:p-8 border-2 border-[#00B4D8]/30">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-gray-900">Badges Earned</h3>
               <Trophy className="w-6 h-6 text-[#00B4D8]" />
             </div>
-            <div className="text-4xl font-bold text-[#00B4D8] mb-2">{totalBadgesEarned}/{badges.length}</div>
+            <div className="text-3xl md:text-4xl font-bold text-[#00B4D8] mb-2">{totalBadgesEarned}/{badges.length}</div>
             <p className="text-sm text-gray-600">Keep going to earn more!</p>
           </div>
 
-          <div className="bg-gradient-to-br from-[#FF6363]/20 to-[#FF6363]/10 rounded-2xl p-8 border-2 border-[#FF6363]/30">
+          <div className="bg-gradient-to-br from-[#FF6363]/20 to-[#FF6363]/10 rounded-2xl p-6 md:p-8 border-2 border-[#FF6363]/30">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-bold text-gray-900">Total Score</h3>
               <Zap className="w-6 h-6 text-[#FF6363]" />
             </div>
-            <div className="text-4xl font-bold text-[#FF6363] mb-2">{totalScore}</div>
+            <div className="text-3xl md:text-4xl font-bold text-[#FF6363] mb-2">{totalScore}</div>
             <p className="text-sm text-gray-600">Points from games and lessons</p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-3xl shadow-lg p-8">
+            <div className="bg-white rounded-3xl shadow-lg p-6 md:p-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">Level Progress</h2>
               <div className="space-y-6">
                 {levelProgress.map((level, index) => (
@@ -117,7 +117,7 @@ export default function Progress({ onBack }: ProgressProps) {
             </div>
           </div>
 
-          <div className="bg-white rounded-3xl shadow-lg p-8">
+          <div className="bg-white rounded-3xl shadow-lg p-6 md:p-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Recent Activity</h2>
             <div className="space-y-4">
               {recentAchievements.map((achievement, index) => (
@@ -134,9 +134,9 @@ export default function Progress({ onBack }: ProgressProps) {
           </div>
         </div>
 
-        <div className="mt-8 bg-white rounded-3xl shadow-lg p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8">Badges & Achievements</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
+        <div className="mt-6 md:mt-8 bg-white rounded-3xl shadow-lg p-6 md:p-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 md:mb-8">Badges & Achievements</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
             {badges.map((badge) => {
               const IconComponent = getIconComponent(badge.icon);
               return (
@@ -147,12 +147,12 @@ export default function Progress({ onBack }: ProgressProps) {
                   }`}
                 >
                   <div
-                    className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg transition-transform hover:scale-110"
+                    className="w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg transition-transform hover:scale-110"
                     style={{
                       backgroundColor: badge.color,
                     }}
                   >
-                    <IconComponent className="w-10 h-10 text-white" />
+                    <IconComponent className="w-8 h-8 md:w-10 md:h-10 text-white" />
                   </div>
                   <h3 className="font-bold text-sm text-gray-900 mb-1">{badge.name}</h3>
                   <p className="text-xs text-gray-600 leading-tight">{badge.description}</p>
