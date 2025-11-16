@@ -91,6 +91,11 @@ export default function TestAudioButton() {
       <div className="mt-4 text-sm text-gray-600">
         <p><strong>Note:</strong> All audio files are currently placeholders. You'll hear a fallback sound instead of actual phonics sounds.</p>
       </div>
+      
+      {/* Add a simple test to check if the page is rendering */}
+      <div className="mt-4 p-3 bg-green-50 rounded-lg">
+        <p className="text-green-800 font-medium">Page is rendering correctly!</p>
+      </div>
     </div>
   );
 }

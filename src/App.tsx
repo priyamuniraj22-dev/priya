@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AudioProvider } from './contexts/AudioContext';
 import Header from './components/Header';
 import Hero from './components/Hero';

@@ -7,6 +7,7 @@
 export class AudioPlayer {
   private audio: HTMLAudioElement | null = null;
   private isUserInteractionReceived = false;
+  private audioContext: AudioContext | null = null;
 
   /**
    * Ensure user interaction before playing audio (required by modern browsers)
@@ -92,35 +93,45 @@ export class AudioPlayer {
         console.info(`Playing fallback sound: ${message}`);
       }
       
-      if (this.audio) {
-        this.audio.pause();
+      // Try to use Web Audio API for fallback sound
+      if (!this.audioContext) {
+        this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
       }
       
-      // Play a distinctive fallback sound using the Web Audio API
-      // This creates a more noticeable sound than a simple beep
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-      const oscillator = audioContext.createOscillator();
-      const gainNode = audioContext.createGain();
+      if (this.audioContext.state === 'suspended') {
+        this.audioContext.resume();
+      }
+      
+      const oscillator = this.audioContext.createOscillator();
+      const gainNode = this.audioContext.createGain();
       
       oscillator.connect(gainNode);
-      gainNode.connect(audioContext.destination);
+      gainNode.connect(this.audioContext.destination);
       
       // Create a more distinctive sound
       oscillator.type = 'sine';
-      oscillator.frequency.value = 600; // Higher pitch
-      gainNode.gain.value = 0.2;
+      oscillator.frequency.value = 800; // Higher pitch
+      gainNode.gain.value = 0.3;
       
       // Add some variation to make it more noticeable
-      const now = audioContext.currentTime;
-      gainNode.gain.setValueAtTime(0.2, now);
-      gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+      const now = this.audioContext.currentTime;
+      gainNode.gain.setValueAtTime(0.3, now);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
       
       oscillator.start();
       setTimeout(() => {
         oscillator.stop();
-      }, 300);
+      }, 500);
     } catch (error) {
       console.warn('Failed to play fallback sound:', error);
+      // Last resort: try to play a simple beep using the Audio element
+      try {
+        const beep = new Audio();
+        beep.src = 'data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFd2xqZ2VjYF1bWFdVVFJQTkxKSERCPz07OTc1MzEwLi0rKSclIyEgHh0cGhkYFxYVFBMSERAPDg0MCwoJCAcGBQQDAgEA';
+        beep.play();
+      } catch (beepError) {
+        console.warn('Failed to play beep sound:', beepError);
+      }
     }
   }
 
@@ -197,4 +208,33 @@ export const playVideo = (fileName: string, elementId: string): void => {
 
 export const stopVideo = (elementId: string): void => {
   videoPlayer.stopVideo(elementId);
+};
+
+// Simple test function to check if audio is working
+export const testAudio = (): void => {
+  try {
+    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.type = 'sine';
+    oscillator.frequency.value = 440;
+    gainNode.gain.value = 0.1;
+    
+    const now = audioContext.currentTime;
+    gainNode.gain.setValueAtTime(0.1, now);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+    
+    oscillator.start();
+    setTimeout(() => {
+      oscillator.stop();
+    }, 500);
+    
+    console.log('Audio test successful');
+  } catch (error) {
+    console.error('Audio test failed:', error);
+  }
 };

@@ -1,5 +1,6 @@
 import { BookOpen, Sparkles } from 'lucide-react';
 import TestAudioButton from './TestAudioButton';
+import AudioContextTest from './AudioContextTest';
 
 export default function Hero() {
   return (
@@ -36,8 +37,18 @@ export default function Hero() {
           </div>
           
           {/* Test Audio Button */}
-          <div className="max-w-md mx-auto">
+          <div className="max-w-md mx-auto mb-8">
             <TestAudioButton />
+          </div>
+          
+          {/* Audio Context Test */}
+          <div className="max-w-md mx-auto">
+            <AudioContextTest />
+          </div>
+          
+          {/* Simple test to check if the page is rendering */}
+          <div className="max-w-md mx-auto mt-8 p-4 bg-green-100 rounded-lg">
+            <p className="text-green-800 font-bold">Hero component is rendering correctly!</p>
           </div>
         </div>
       </div>
