@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { AudioProvider } from './contexts/AudioContext';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -316,21 +316,19 @@ function App() {
   };
 
   return (
-    <AudioProvider>
-      <div className="min-h-screen bg-gradient-to-b from-blue-50 to-purple-50 flex flex-col">
-        <Header 
-          onNavigation={handleNavigation} 
-        />
-        <main className="flex-grow">
-          {renderCurrentPage()}
-        </main>
-        <footer className="bg-white border-t py-6">
-          <div className="container mx-auto px-4 text-center text-gray-600">
-            <p>© {new Date().getFullYear()} PhonicsPlayhouse. All rights reserved.</p>
-          </div>
-        </footer>
-      </div>
-    </AudioProvider>
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-purple-50 flex flex-col">
+      <Header 
+        onNavigation={handleNavigation} 
+      />
+      <main className="flex-grow">
+        {renderCurrentPage()}
+      </main>
+      <footer className="bg-white border-t py-6">
+        <div className="container mx-auto px-4 text-center text-gray-600">
+          <p>© {new Date().getFullYear()} PhonicsPlayhouse. All rights reserved.</p>
+        </div>
+      </footer>
+    </div>
   );
 }
 

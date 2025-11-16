@@ -1,15 +1,17 @@
 import { useState } from 'react';
-import { Volume2, Play, Square, AlertTriangle } from 'lucide-react';
+import { Volume2, Play, Square, AlertTriangle, CheckCircle } from 'lucide-react';
 import { playAudio, stopAudio } from '../utils/mediaPlayer';
 
 export default function TestAudioButton() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentFile, setCurrentFile] = useState<string | null>(null);
   const [playbackStatus, setPlaybackStatus] = useState<'success' | 'error' | 'playing' | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   const handlePlay = () => {
     // Reset status
     setPlaybackStatus('playing');
+    setErrorMessage('');
     
     // Play a test sound
     playAudio('letter_a.mp3');
@@ -22,6 +24,7 @@ export default function TestAudioButton() {
       setCurrentFile(null);
       // Since we're using placeholder files, we expect an error
       setPlaybackStatus('error');
+      setErrorMessage('This is a placeholder file. Replace it with a real phonics sound.');
     }, 3000);
   };
 
@@ -30,6 +33,7 @@ export default function TestAudioButton() {
     setIsPlaying(false);
     setCurrentFile(null);
     setPlaybackStatus(null);
+    setErrorMessage('');
   };
 
   return (
@@ -82,7 +86,19 @@ export default function TestAudioButton() {
           <div>
             <p className="text-yellow-800 font-medium">Placeholder Audio Detected</p>
             <p className="text-yellow-700 text-sm">
-              This is a placeholder file. Replace <code className="bg-yellow-100 px-1 rounded">public/audio/letter_a.mp3</code> with a real phonics sound.
+              {errorMessage || 'This is a placeholder file. Replace it with a real phonics sound.'}
+            </p>
+          </div>
+        </div>
+      )}
+      
+      {playbackStatus === 'success' && (
+        <div className="p-3 bg-green-50 rounded-lg flex items-start gap-2">
+          <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-green-800 font-medium">Audio Playing Successfully</p>
+            <p className="text-green-700 text-sm">
+              Audio file is playing correctly.
             </p>
           </div>
         </div>

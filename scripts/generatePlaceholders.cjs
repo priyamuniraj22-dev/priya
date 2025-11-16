@@ -46,7 +46,12 @@ const audioFiles = [
   'silent_e_intro.mp3',
   'spelling_patterns.mp3',
   'matching_game.mp3',
-  'blend_g_to_m.mp3'
+  'blend_g_to_m.mp3',
+  'letter_a_to_f.mp3',
+  'vowel_isolation.mp3',
+  'digraph_finder.mp3',
+  'reader_passage.mp3',
+  'writing_prompt.mp3'
 ];
 
 // Generate placeholder video files
@@ -85,23 +90,25 @@ const videoFiles = [
   'spelling_patterns.mp4'
 ];
 
+// Base64 encoded simple beep sound (1 second)
+const beepSound = 'UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFd2xqZ2VjYF1bWFdVVFJQTkxKSERCPz07OTc1MzEwLi0rKSclIyEgHh0cGhkYFxYVFBMSERAPDg0MCwoJCAcGBQQDAgEA';
+
 // Create placeholder files
 console.log('Creating placeholder audio files...');
 audioFiles.forEach(file => {
   const filePath = path.join(audioDir, file);
-  if (!fs.existsSync(filePath)) {
-    fs.writeFileSync(filePath, `Placeholder for ${file}`, 'utf8');
-    console.log(`Created: ${file}`);
-  }
+  // Always create/overwrite the file
+  const buffer = Buffer.from(beepSound, 'base64');
+  fs.writeFileSync(filePath, buffer);
+  console.log(`Created/Updated: ${file}`);
 });
 
 console.log('Creating placeholder video files...');
 videoFiles.forEach(file => {
   const filePath = path.join(videoDir, file);
-  if (!fs.existsSync(filePath)) {
-    fs.writeFileSync(filePath, `Placeholder for ${file}`, 'utf8');
-    console.log(`Created: ${file}`);
-  }
+  // Always create/overwrite the file
+  fs.writeFileSync(filePath, `Placeholder for ${file}`, 'utf8');
+  console.log(`Created/Updated: ${file}`);
 });
 
 console.log('Placeholder files generation complete!');

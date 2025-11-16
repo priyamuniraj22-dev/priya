@@ -71,6 +71,11 @@ export class AudioPlayer {
         }
       });
       
+      // Add canplay event to ensure file can actually play
+      this.audio.addEventListener('canplay', () => {
+        console.log(`Audio file ${fileName} is ready to play`);
+      });
+      
       this.audio.play().catch(error => {
         console.warn(`Failed to play audio ${fileName}:`, error);
         // Try to play a fallback sound
